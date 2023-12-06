@@ -2,15 +2,18 @@
 import sqlite3
 import json
 import smtplib
+import os
 from email.mime.text import MIMEText
 
-#connects to sqlite3 details database
+#connects to SQLite3 details database
 #the Details database has one table 
 #the column is emails, while the rows are 
 #the newsletter tier, the recipients, the subject, and  the body
+  
 conn=sqlite3.connect("details.db")
 cur=conn.cursor()
-#cur.execute("CREATE TABLE emails(tier, recipients, subject, body"), this is the line that made the table
+if os.path.getsize('details.db') == 0: #makes sure that the database is there
+  cur.execute("CREATE TABLE emails(tier, recipients, subject, body"), this is the line that made the table
 
 while True:
   choice=int(input(("Would you like to \n1.Add an email tier\n2.Edit the contents of an email tier\n3.Remove an email tier\n4.View all tiers\n5.Send all emails\n6.Quit")))
