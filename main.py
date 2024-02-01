@@ -14,7 +14,7 @@ conn=sqlite3.connect("details.db")
 cur=conn.cursor()
 if os.path.getsize('details.db') == 0: #makes sure that the database is there
   cur.execute("CREATE TABLE emails(tier, recipients, subject, body"), this is the line that made the table
-
+print("Welcome to the Newsletter manager\n)
 while True:
   choice=int(input(("Would you like to \n1.Add an email tier\n2.Edit the contents of an email tier\n3.Remove an email tier\n4.View all tiers\n5.Send all emails\n6.Quit")))
   match choice:
@@ -35,6 +35,8 @@ while True:
       cur.execute("INSERT INTO emails(tier, recipients, subject, body) VALUES (?, ?, ?, ?)", (tier, recipients_str, subject, body))
       conn.commit()#To add a tier
       print("Tier added")    
+    
+  
     case 2:#To edit a tier
       tier=input("What is the name of the tier?")
       cur.execute("SELECT * FROM emails WHERE tier = ?", (tier,))
@@ -55,6 +57,8 @@ while True:
         print("Values in the 'recipients' column for tier '{tier}' updated.")
       else:
         print("No row found with tier '{tier}'.")
+   
+  
     case 3:#To remove a tier
        tier=input("What tier will you remove?")
        cur.execute("SELECT * FROM emails WHERE tier = ?", (tier,))
@@ -64,11 +68,16 @@ while True:
          cur.execute("DELETE FROM emails WHERE tier = ?", (tier,))
          conn.commit()
          print(f"Tier '{tier}' removed successfully")
+    
+  
     case 4:#To view all tiers
       cur.execute("SELECT * FROM emails")
       rows = cur.fetchall()
       for row in rows:
         print(row)
+
+
+  
     case 5:#To send an email
       #try statement to catch errors if SMTP fails
       try:
